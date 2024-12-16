@@ -351,7 +351,7 @@ def update_catalog_collection(app_host: str, csc_catalog_client: pystac_client.C
     global added_items_flag
 
     conn = psycopg2.connect(
-        host="db4.csc.fi", 
+        host=args.db_host, 
         port=paituli_port, 
         user="paituli-ro", 
         password=paituli_pwd, 
@@ -612,6 +612,7 @@ if __name__ == "__main__":
     parser.add_argument("--port", type=str, help="Port for the paituli database")
     parser.add_argument("--collections", nargs="+", help="Specific collections to be made", required=True)
     parser.add_argument("--host", type=str, help="Hostname of the selected STAC API", required=True)
+    parser.add_argument("--db_host", type=str, help="Hostname of the Paituli DB", required=True)
 
     args = parser.parse_args()
 

@@ -392,6 +392,7 @@ if __name__ == "__main__":
     parser.add_argument("--port", type=str, help="Port for the paituli database", required=True)
     parser.add_argument("--pwd", type=str, help="Password for paituli database")
     parser.add_argument("--collections", nargs="+", help="Specific collections to be made")
+    parser.add_argument("--db_host", type=str, help="Hostname of the Paituli DB", required=True)
 
     args = parser.parse_args()
     paituli_port = args.port
@@ -410,7 +411,17 @@ if __name__ == "__main__":
     except:
         catalog = pystac.Catalog("Paituli", "Testing catalog", catalog_type=pystac.CatalogType.RELATIVE_PUBLISHED)
 
-    conn = psycopg2.connect(f"host=db4.csc.fi port={paituli_port} user=paituli-ro password={paituli_pwd} dbname=paituli")
+    conn = psycopg2.connect(
+        host=args.db_host, 
+        port=paituli_port, 
+        user="paituli-ro", 
+        password=paituli_pwd, 
+        dbname="paituli",
+        keepalives=1,
+        keepalives_idle=30,
+        keepalives_interval=10,
+        keepalives_count=5
+    )
 
     with conn.cursor() as curs:
 
