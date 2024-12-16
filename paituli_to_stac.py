@@ -411,17 +411,7 @@ if __name__ == "__main__":
     except:
         catalog = pystac.Catalog("Paituli", "Testing catalog", catalog_type=pystac.CatalogType.RELATIVE_PUBLISHED)
 
-    conn = psycopg2.connect(
-        host=args.db_host, 
-        port=paituli_port, 
-        user="paituli-ro", 
-        password=paituli_pwd, 
-        dbname="paituli",
-        keepalives=1,
-        keepalives_idle=30,
-        keepalives_interval=10,
-        keepalives_count=5
-    )
+    conn = psycopg2.connect(f"host={args.db_host} port={paituli_port} user=paituli-ro password={paituli_pwd} dbname=paituli")
 
     with conn.cursor() as curs:
 

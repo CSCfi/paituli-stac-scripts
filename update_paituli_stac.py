@@ -308,7 +308,7 @@ def get_datasets(collections: list) -> dict:
         Returns a dictionary of the datasets with the associated STAC Collection ID as the key.
     """
 
-    conn = psycopg2.connect(f"host=db4.csc.fi port={paituli_port} user=paituli-ro password={paituli_pwd} dbname=paituli")
+    conn = psycopg2.connect(f"host={args.db_host} port={paituli_port} user=paituli-ro password={paituli_pwd} dbname=paituli")
 
     with conn.cursor() as curs:
             
