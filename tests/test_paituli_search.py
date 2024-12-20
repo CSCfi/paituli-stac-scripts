@@ -5,7 +5,8 @@ import pytest
 
 @pytest.fixture
 def catalog_instance(app_host) -> pystac_client.Client:
-    catalog = pystac_client.Client.open(f"{app_host}/geoserver/ogc/stac/v1/")
+    # Use the update-script headers to not show up in logs
+    catalog = pystac_client.Client.open(f"{app_host}/geoserver/ogc/stac/v1/", headers={"User-Agent":"update-script"})
     return catalog
 
 @pytest.fixture

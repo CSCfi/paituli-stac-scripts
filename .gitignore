@@ -1,4 +1,6 @@
 FMI/
 GeoCubes/
+Paituli/
 tests/__pycache__/
 utils/__pycache__/
+.pytest_cache/

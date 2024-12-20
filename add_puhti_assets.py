@@ -7,7 +7,6 @@ from urllib.parse import urljoin
 
 from utils.json_convert import convert_json_to_geoserver
 
-
 if __name__ == "__main__":
 
     online_data_prefix = "https://www.nic.funet.fi/index/geodata/"

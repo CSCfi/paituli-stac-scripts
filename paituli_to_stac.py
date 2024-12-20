@@ -12,6 +12,8 @@ from rio_stac.stac import create_stac_item
 from shapely.geometry import GeometryCollection, shape
 from bs4 import BeautifulSoup
 
+from utils.paituli import recursive_filecheck
+
 online_data_prefix = "https://www.nic.funet.fi/index/geodata/"
 puhti_data_prefix = "/appl/data/geo/"
 
@@ -358,32 +360,6 @@ def create_item(path, collection, data_dict, item_media_type, label) -> pystac.I
 
     return item
 
-def recursive_filecheck(url, links, recursive_links=None) -> list:
-
-    if not recursive_links:
-        recursive_links = []
-
-    for link in links:
-        if link["href"].startswith("?") or link["href"].startswith("/"):
-            continue
-        else:
-            if link["href"].endswith("/"):
-                page = requests.get(url+link["href"])
-                data = page.text
-                soup = BeautifulSoup(data, features="html.parser")
-                for a in soup.find_all("a"):
-                    if a["href"].startswith("?") or a["href"].startswith("/"):
-                        continue
-                    else:
-                        a["href"] = link["href"] + a["href"]
-                        links.append(a)
-                links.remove(link)
-                recursive_filecheck(url+link["href"], links, recursive_links)
-            else:
-                recursive_links.append(link)
-    
-    return recursive_links
-
 if __name__ == "__main__":
 
     dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -407,9 +383,9 @@ if __name__ == "__main__":
         selected_collections = args.collections
 
     try:
-        catalog = pystac.Catalog.from_file(f"{dir_path}/testing-catalog/catalog.json")
+        catalog = pystac.Catalog.from_file(f"{dir_path}/Paituli/catalog.json")
     except:
-        catalog = pystac.Catalog("Paituli", "Testing catalog", catalog_type=pystac.CatalogType.RELATIVE_PUBLISHED)
+        catalog = pystac.Catalog("Paituli", "Paituli Catalog", catalog_type=pystac.CatalogType.RELATIVE_PUBLISHED)
 
     conn = psycopg2.connect(f"host={args.db_host} port={paituli_port} user=paituli-ro password={paituli_pwd} dbname=paituli")
 
@@ -615,4 +591,4 @@ if __name__ == "__main__":
         collection.extent.spatial = pystac.SpatialExtent(bounds)
         collection.extent.temporal = pystac.TemporalExtent(temporal)
     
-    catalog.normalize_and_save("testing-catalog", skip_unresolved=True)
+    catalog.normalize_and_save("Paituli", skip_unresolved=True)

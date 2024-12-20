@@ -3,6 +3,8 @@ import pystac
 import rasterio
 import urllib.request, json
 
+from utils.retry_errors import retry_errors
+
 fmi_collections = [
     "https://pta.data.lit.fmi.fi/stac/catalog/Sentinel-2_global_mosaic_vuosi/Sentinel-2_global_mosaic_vuosi.json",
     "https://pta.data.lit.fmi.fi/stac/catalog/Sentinel-2_global_mosaic_dekadi/Sentinel-2_global_mosaic_dekadi.json",
@@ -483,19 +485,19 @@ news_ids = {
     "Tuulituhoriski": "daily_wind_damage_risk_at_fmi"
 }
 
-def retry_errors(list_of_items, list_of_errors):
+# def retry_errors(list_of_items, list_of_errors):
 
-    print(" - Retrying errors:")
-    while len(list_of_errors) > 0:
-        for i,item in enumerate(list_of_errors):
-            try:
-                list_of_items.append(pystac.Item.from_file(item))
-                print(f" + Added item {item}")
-                list_of_errors.remove(item)
-            except Exception as e:
-                print(f" - ERROR {e} in item {item} #{i}")
+#     print(" - Retrying errors:")
+#     while len(list_of_errors) > 0:
+#         for i,item in enumerate(list_of_errors):
+#             try:
+#                 list_of_items.append(pystac.Item.from_file(item))
+#                 print(f" + Added item {item}")
+#                 list_of_errors.remove(item)
+#             except Exception as e:
+#                 print(f" - ERROR {e} in item {item} #{i}")
 
-    return 0
+#     return 0
 
 def create_fmi_collections(root_catalog):
 
@@ -581,10 +583,10 @@ def create_fmi_collections(root_catalog):
                 item.extra_fields["gsd"] = src.res[0]
                 # 9391 EPSG code is false, replace by the standard 3067
                 if src.crs.to_epsg() == 9391:
-                    item.extra_fields["proj:epsg"] = 3067
+                    item.properties["proj:epsg"] = 3067
                 else:
-                    item.extra_fields["proj:epsg"] = src.crs.to_epsg()
-                item.extra_fields["proj:transform"] = [
+                    item.properties["proj:epsg"] = src.crs.to_epsg()
+                item.properties["proj:transform"] = [
                     src.transform.a,
                     src.transform.b,
                     src.transform.c,
@@ -608,7 +610,7 @@ def create_fmi_collections(root_catalog):
         root_catalog.add_child(collection)
         print(" + All items added")
 
-    root_catalog.normalize_and_save('FMI')
+    root_catalog.normalize_and_save("FMI")
     print("Catalog normalized and saved")
 
 if __name__ == "__main__":

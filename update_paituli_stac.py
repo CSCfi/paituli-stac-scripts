@@ -16,6 +16,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
 from utils.json_convert import convert_json_to_geoserver
+from utils.paituli import recursive_filecheck, get_new_local_files
 
 def generate_timestamps(path: str, data_dict: dict, label: str | None) -> dict:
 
@@ -274,33 +275,6 @@ def create_item(path: str, data_dict: dict, item_media_type: str, label: str | N
 
     return item
 
-def recursive_filecheck(url: str, links: list[str], recursive_links: list) -> list:
-
-    """
-        Goes through the files in the given URL and recursively checks them for appropriate files
-    """
-
-    for link in links:
-        if link["href"].startswith("?") or link["href"].startswith("/"):
-            continue
-        else:
-            if link["href"].endswith("/"):
-                page = requests.get(url+link["href"])
-                data = page.text
-                soup = BeautifulSoup(data, features="html.parser")
-                for a in soup.find_all("a"):
-                    if a["href"].startswith("?") or a["href"].startswith("/"):
-                        continue
-                    else:
-                        a["href"] = link["href"] + a["href"]
-                        links.append(a)
-                links.remove(link)
-                recursive_filecheck(url+link["href"], links, recursive_links)
-            else:
-                recursive_links.append(link)
-    
-    return recursive_links
-
 def get_datasets(collections: list) -> dict:
 
     """
@@ -322,29 +296,12 @@ def get_datasets(collections: list) -> dict:
                 datasets[new_dict["stac_id"]] = [{key: value for key, value in new_dict.items()}]
             else:
                 datasets[new_dict["stac_id"]].append({key: value for key, value in new_dict.items()})
+
+    for collection in collections:
+        if collection not in datasets:
+            print(f"! Collection \"{collection}\" not found, make sure the ID is correct.")
     
     return datasets
-
-def get_new_local_files() -> list:
-
-    """
-        Goes through the given directory and returns the files that have been modified recently (30 days).
-    """
-
-    new_paths = []
-    directory = "/geodata/"
-    target_date = datetime.datetime.now() - datetime.timedelta(days=30)
-
-    for root, dirs, files in os.walk(directory):
-        for file in files:
-            file_path = os.path.join(root, file)
-            modification_time = datetime.datetime.fromtimestamp(os.path.getmtime(file_path))
-            split_path = file_path.split(".")
-            if modification_time.date() >= target_date.date() and len(split_path) >= 2:
-                modified_path = split_path[-2].replace(directory.replace(".", ""), "")
-                new_paths.append(modified_path)
-
-    return new_paths
 
 def update_catalog_collection(app_host: str, csc_catalog_client: pystac_client.Client, datasets: dict) -> None:
 
@@ -365,8 +322,6 @@ def update_catalog_collection(app_host: str, csc_catalog_client: pystac_client.C
     session.auth = ("admin", geoserver_pwd)
     log_headers = {"User-Agent": "update-script"} # Added for easy log-filtering
 
-    csc_collections = list(csc_catalog_client.get_collections())
-
     if args.local:
         local_files = get_new_local_files()
 
@@ -374,11 +329,7 @@ def update_catalog_collection(app_host: str, csc_catalog_client: pystac_client.C
 
         print(f"Checking {stac_id}:")
 
-        try: #If stac_id not in CSC Collections, skip it
-            csc_collection = next(col for col in csc_collections if col.id == stac_id)
-        except StopIteration:
-            continue
-
+        csc_collection = csc_catalog_client.get_collection(stac_id)
         collection_item_ids = set(item.id for item in csc_collection.get_items())
 
         # Check if the Collection contains NetCDF files and create a list for storing the added IDs
@@ -430,7 +381,6 @@ def update_catalog_collection(app_host: str, csc_catalog_client: pystac_client.C
                     recursive_links = recursive_filecheck(page_url, links, recursive_links)
                     
                     item_links = [link.get("href") for link in recursive_links if link.get("href").endswith(media_types[item_media_type]['ext'])]
-                    print(item_links)
                     if len(item_links) > 0:
                         for link in item_links:
                             data_path = online_data_prefix + item_path + link
@@ -637,15 +587,17 @@ if __name__ == "__main__":
     app_host = f"{args.host}/geoserver/rest/oseo/"
     csc_catalog_client = pystac_client.Client.open(f"{args.host}/geoserver/ogc/stac/v1/", headers={"User-Agent":"update-script"})
     
-    datasets = get_datasets(args.collections)
+    datasets = get_datasets(args.collections)        
 
     # Skip updating and sending collection if no items were added
     # Using a global flag for this might be janky, because if the functions are imported they are still calling the `global added_items_flag`
     # This is needed to make the update script to run faster if there's nothing to update
     added_items_flag = False
-    
-    print(f"Updating STAC Catalog at {args.host}")
-    update_catalog_collection(app_host, csc_catalog_client, datasets)
+
+    # Run the script if there's datasets
+    if datasets:
+        print(f"Updating STAC Catalog at {args.host}")
+        update_catalog_collection(app_host, csc_catalog_client, datasets)
 
     end = time.time()
     print(f"Script took {end-start:.2f} seconds")

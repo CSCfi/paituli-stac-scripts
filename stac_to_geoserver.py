@@ -14,6 +14,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--host", type=str, help="Hostname of the selected STAC API", required=True)
     parser.add_argument("--pwd", type=str, help="Password for GeoServer")
+    parser.add_argument("--catalog", type=str, help="Name of the local Catalog")
     parser.add_argument("--collections", nargs="+", help="Specific collections to upload to GeoServer", required=True)
 
     args = parser.parse_args()
@@ -29,15 +30,18 @@ if __name__ == "__main__":
 
     collections = args.collections
 
+    # Use given Catalog folder if provided, else get the name from user
+    stac_catalog = args.catalog if args.catalog else input("Provide STAC Catalog folder name: ")
+
     for collection in collections:
 
         working_dir = Path(__file__).parent
         # Change Catalog directory name here if different
-        catalog_dir = Path(working_dir / "stac-catalog")
+        catalog_dir = Path(working_dir / stac_catalog)
         
         # Check if Catalog directory exists
         if not catalog_dir.exists():
-            print("Catalog directory named stac-catalog does not exist.")
+            print(f"Catalog folder named {stac_catalog} does not exist.")
             break
         collection_folder = Path(catalog_dir / collection)
 
