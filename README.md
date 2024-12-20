@@ -23,7 +23,7 @@ python update_paituli_stac.py --port <DB-port> --db_host <Database host address>
 
 ### Sentinel
 
-For getting the buckets through the boto3, you need read access to the CSC Project they are located in. Using the scripts on Linux, you need the allas_conf script for accessing Allas. The two CSV-files contain the buckets from these two CSC projects.
+For getting the buckets through the boto3, you need read access to the CSC Project they are located in. Using the scripts on Linux, you need the allas_conf script for accessing Allas. The two CSV-files contain the buckets from these two CSC projects ([first](files/2000290_buckets.csv), [second](files/2001106_buckets.csv))
 
 Create the local STAC files with:
 ```sh
