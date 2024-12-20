@@ -2,14 +2,9 @@
 
 Scripts to create STAC Collections from different data sources. PyTest tests contained in the `tests` folder.
 
-## Uploading local Catalog
+## Creating local STAC files
 
-Run `stac_to_geoserver.py` to upload the created Collections to GeoServer. You need to provide the GeoServer host with `--host` and the collection ID with `--collection`. You can also give the local Catalog folder name with `--catalog` or the script will ask it when run.
-```bash
-python stac_to_geoserver.py --host <Host address> --catalog <Catalog folder name> --collection <Collection ID>
-```
-
-## Paituli
+### Paituli
 
 Run `paituli_to_stac.py` to create the Catalog and Collections. The script requires that you give the database port as an argument with `--port` and the database host address with `--db_host`. You can also provide the database password with `--pwd`, and if you want to only create specific collections, use `--collections`.
 ```bash
@@ -26,7 +21,7 @@ Run `update_paituli_stac.py` to update collection/s. Multiple collections can be
 python update_paituli_stac.py --port <DB-port> --db_host <Database host address> --host <Host address> --collections <Collection ID>
 ```
 
-## Sentinel
+### Sentinel
 
 For getting the buckets through the boto3, you need read access to the CSC Project they are located in. Using the scripts on Linux, you need the allas_conf script for accessing Allas. The two CSV-files contain the buckets from these two CSC projects.
 
@@ -40,7 +35,7 @@ The update script is run with the selected host address.
 python update_allas_sentinel.py --host <host-address>
 ```
 
-## FMI
+### FMI
 
 To turn the FMI's static STAC files into a local STAC Catalog:
 ```sh
@@ -52,7 +47,7 @@ The update script is these above two scripts combined without needing to save th
 python update_fmi.py --host <host address> --pwd <GeoServer password>
 ```
 
-## GeoCubes
+### GeoCubes
 
 The collection information and translations are located in [karttatasot.csv](files/karttatasot.csv). If new datasets are added to GeoCubes, the translations of these datasets need to be added to `karttatasot.csv` before the script takes them into account.
 
@@ -70,6 +65,14 @@ The `check_new_datasets.py` script checks if there's any new datasets in GeoCube
 ```bash
 python check_new_datasets.py --host <host-address-to-compare-against>
 ```
+
+## Uploading local Catalog
+
+Run `stac_to_geoserver.py` to upload the created Collections to GeoServer. You need to provide the GeoServer host with `--host` and the collection ID with `--collection`. You can also give the local Catalog folder name with `--catalog` or the script will ask it when run.
+```bash
+python stac_to_geoserver.py --host <Host address> --catalog <Catalog folder name> --collection <Collection ID>
+```
+
 
 ## Testing
 
