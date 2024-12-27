@@ -196,7 +196,7 @@ if __name__ == "__main__":
     The first check for REST API password is from a password file. 
     If a password file is not found, the script prompts the user to give a password through CLI
     """
-    pw_filename = 'passwords.txt'
+    pw_filename = '../passwords.txt'
     parser = argparse.ArgumentParser()
     parser.add_argument("--host", type=str, help="Hostname of the selected STAC API", required=True)
     

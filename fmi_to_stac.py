@@ -485,20 +485,6 @@ news_ids = {
     "Tuulituhoriski": "daily_wind_damage_risk_at_fmi"
 }
 
-# def retry_errors(list_of_items, list_of_errors):
-
-#     print(" - Retrying errors:")
-#     while len(list_of_errors) > 0:
-#         for i,item in enumerate(list_of_errors):
-#             try:
-#                 list_of_items.append(pystac.Item.from_file(item))
-#                 print(f" + Added item {item}")
-#                 list_of_errors.remove(item)
-#             except Exception as e:
-#                 print(f" - ERROR {e} in item {item} #{i}")
-
-#     return 0
-
 def create_fmi_collections(root_catalog):
 
     collections = []

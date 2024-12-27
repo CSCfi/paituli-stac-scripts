@@ -2,7 +2,6 @@ import pystac
 import psycopg2
 import rasterio
 import requests
-import datetime
 import getpass
 import argparse
 import re
@@ -380,7 +379,7 @@ def update_catalog_collection(app_host: str, csc_catalog_client: pystac_client.C
 if __name__ == "__main__":
 
     start = time.time()
-    config_filename = 'passwords.txt'
+    config_filename = '../passwords.txt'
     online_data_prefix = "https://www.nic.funet.fi/index/geodata/"
     puhti_data_prefix = "/appl/data/geo/"
     media_types = {
