@@ -9,122 +9,13 @@ import requests
 import pystac_client
 import time
 from urllib.parse import urljoin
-from itertools import chain
 from datetime import datetime
-from xml.dom import minidom
 from shapely.geometry import box, mapping
-from pystac.extensions.eo import EOExtension, Band
+from pystac.extensions.eo import EOExtension
 from pystac.extensions.projection import ProjectionExtension
-from rasterio.warp import transform_bounds
-from rasterio.crs import CRS
 
 from utils.json_convert import convert_json_to_geoserver
-from utils.allas_sentinel import get_sentinel2_bands, init_client, get_buckets, transform_crs, get_crs, get_xml_content, get_metadata_content, get_metadata_from_xml
-
-# def init_client():
-
-#     # Create client with credentials. Allas-conf needed to be run for boto3 to get the credentials
-#     session = boto3.Session(profile_name = 'default') # Profile name corresponds to the .aws/credentials file profile that contains AWS credentials that have access to Maria's project
-#     s3_client = session.client(
-#         service_name = "s3",
-#         endpoint_url = "https://a3s.fi", 
-#         region_name = "regionOne"
-#     )
-
-#     return s3_client
-
-# def get_buckets(client):
-#     """
-#         client: boto3.client
-
-#         Get buckets from different sources (CSVs and s3 Client)
-#     """
-#     # Get Buckets from the Maria CSC project   
-#     bucket_information = client.list_buckets()
-#     buckets = [x['Name'] for x in bucket_information['Buckets'] if re.match(r"Sentinel2(?!.*segments)", x['Name'])]
-
-#     # Get Buckets from these two CSC projects
-#     first_csv = pd.read_table("files/2000290_buckets.csv", header=None)
-#     first_buckets = list(chain.from_iterable(first_csv.to_numpy()))
-#     second_csv = pd.read_table("files/2001106_buckets.csv", header=None)
-#     second_buckets = list(chain.from_iterable(second_csv.to_numpy()))
-    
-#     buckets = [*buckets, *first_buckets, *second_buckets]
-
-#     return buckets
-
-# def get_xml_content(doc, tagname):
-
-#     """
-#         doc: Parsed xml metadata file
-#         tagname: The wanted tag to be searched from the xml file
-#     """
-
-#     content = doc.getElementsByTagName(tagname)[0].firstChild.data
-#     return content
-
-# def get_metadata_content(bucket, metadatafile, client):
-
-#     """
-#         bucket: The bucket where the metadatafile is located
-#         metadatafile: The name of the metadatafile
-#         client: boto3.client
-#     """
-
-#     obj = client.get_object(Bucket = bucket, Key = metadatafile)['Body']
-#     metadatacontent = obj.read().decode()
-#     return metadatacontent
-
-# def get_metadata_from_xml(metadatabody):
-
-#     """
-#         metadatabody: The metadata content from boto3.client get_object call
-#     """
-
-#     with minidom.parseString(str(metadatabody)) as doc:
-#         metadatadict = {}
-#         metadatadict['cc_perc'] = int(float(get_xml_content(doc,'Cloud_Coverage_Assessment')))
-#         metadatadict['data_cover'] = 100 - int(float(get_xml_content(doc,'NODATA_PIXEL_PERCENTAGE')))
-#         metadatadict['start_time'] = get_xml_content(doc,'PRODUCT_START_TIME')
-#         metadatadict['end_time'] = get_xml_content(doc,'PRODUCT_STOP_TIME')
-#         metadatadict['orbit'] = get_xml_content(doc,'SENSING_ORBIT_NUMBER')
-#         metadatadict['baseline'] = get_xml_content(doc,'PROCESSING_BASELINE')
-
-#     return metadatadict
-
-# def transform_crs(bounds, crs_string):
-    
-#     """
-#         bounds: Bounding Box bounds from rasterio.open()
-#         crs_string: CRS string from CRS metadata
-#     """
-
-#     # Transform the bounds according to the CRS
-#     crs = CRS.from_epsg(4326)
-#     safecrs = CRS.from_epsg(int(crs_string))
-#     bounds_transformed = transform_bounds(safecrs, crs, bounds[0][0], bounds[0][1], bounds[0][2], bounds[0][3])
-        
-#     return bounds_transformed
-
-# def get_crs(crsmetadatafile):
-
-#     """
-#         crsmetadatafile: The decoded content from the SAFEs CRS metadatafile
-#     """
-
-#     # Get CRS and resolution sizes from crsmetadatafile
-#     with minidom.parseString(crsmetadatafile) as doc:
-#         crsstring = get_xml_content(doc, 'HORIZONTAL_CS_CODE').split(':')[-1]
-#         sizes = doc.getElementsByTagName('Size')
-#         crsmetadata = { 
-#             'CRS': crsstring,
-#             'shapes': {}
-#         }
-#         for size in sizes:
-#             resolution = size.getAttribute('resolution')
-#             crsmetadata['shapes'][resolution] = (int(get_xml_content(size, 'NROWS')), int(get_xml_content(size, 'NCOLS')))
-
-#     return crsmetadata
+from utils.allas_sentinel import get_sentinel2_bands, init_client, get_buckets, transform_crs, get_crs, get_metadata_content, get_metadata_from_xml
 
 def make_item(uri, metadatacontent, crs_metadata):
     """
@@ -354,7 +245,7 @@ if __name__ == "__main__":
 
     s2_bands = get_sentinel2_bands()
 
-    pw_filename = 'passwords.txt'
+    pw_filename = '../passwords.txt'
     parser = argparse.ArgumentParser()
     parser.add_argument("--host", type=str, help="Hostname of the selected STAC API", required=True)
     

@@ -13,24 +13,6 @@ from pystac import Collection, Item
 from utils.json_convert import convert_json_to_geoserver
 from utils.retry_errors import retry_errors
 
-# def retry_errors(list_of_items, list_of_errors):
-#     """
-#     Function to retry retrieving the items that were timed out during the process.
-    
-#     list_of_items - List containing the STAC items from the source. The errored items will be appended to this list when successfully retrieved
-#     list_of_errors - List of links to the items that timed out during the retrieving process. Function will run until this list is empty
-#     """
-
-#     print(" * Trying to add items that timedout")
-#     while len(list_of_errors) > 0:
-#         for item in list_of_errors:
-#             try:
-#                 list_of_items.append(Item.from_file(item))
-#                 print(f" * Listed {item}")
-#                 list_of_errors.remove(item)
-#             except Exception as e:
-#                 print(f" ! {e} on {item}")
-
 def update_catalog(app_host, csc_catalog_client):
 
     """
@@ -151,7 +133,7 @@ if __name__ == "__main__":
     The first check for REST API password is from a password file. 
     If a password file is not found, the script prompts the user to give a password through CLI
     """
-    pw_filename = 'passwords.txt'
+    pw_filename = '../passwords.txt'
     parser = argparse.ArgumentParser()
     parser.add_argument("--host", type=str, help="Hostname of the selected STAC API", required=True)
     
