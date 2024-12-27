@@ -94,4 +94,9 @@ def convert_json_to_geoserver(json_content):
         if "eo:cloud_cover" in content["properties"]: new_json["properties"]["opt:cloudCover"] = int(content["properties"]["eo:cloud_cover"])
         if "thumbnail" in content["links"]: new_json["properties"]["thumbnailURL"] = content["links"]["thumbail"]["href"]
 
+        # Fix for FMI Datetime
+        if content["properties"]["start_datetime"] is None and content["properties"]["end_datetime"] is None and content["properties"]["datetime"] is not None:
+            new_json["properties"]["timeStart"] = content["properties"]["datetime"]
+            new_json["properties"]["timeEnd"] = content["properties"]["datetime"]
+
     return json.loads(json.dumps(new_json))
