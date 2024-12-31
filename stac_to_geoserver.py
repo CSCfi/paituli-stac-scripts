@@ -75,6 +75,7 @@ if __name__ == "__main__":
         items = [x['href'] for x in rootcollection["links"] if x["rel"] == "item"]
 
         print("Uploading Items:")
+        number_of_items = len(items)
         for i, item in enumerate(items):
             with open(collection_folder / item) as f:
                 payload = json.load(f)
@@ -88,13 +89,13 @@ if __name__ == "__main__":
             else:
                 r = requests.post(urljoin(app_host, request_point), json=converted, auth=HTTPBasicAuth("admin", geoserver_pwd))
                 r.raise_for_status()
-            if len(items) >= 5: # Just to keep track that the script is still running
-                if i == int(len(items) / 5):
+            if number_of_items >= 5: # Just to keep track that the script is still running
+                if i == int(number_of_items / 5):
                     print("~20% of Items added")
-                elif i == int(len(items) / 5) * 2:
+                elif i == int(number_of_items / 5) * 2:
                     print("~40% of Items added")
-                elif i == int(len(items) / 5) * 3:
+                elif i == int(number_of_items / 5) * 3:
                     print("~60% of Items added")
-                elif i == int(len(items) / 5) * 4:
+                elif i == int(number_of_items / 5) * 4:
                     print("~80% of Items added")
         print("All Items uploaded")
