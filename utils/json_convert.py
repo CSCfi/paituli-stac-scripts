@@ -82,21 +82,25 @@ def convert_json_to_geoserver(json_content):
             "properties": {
                 "eop:identifier": content["id"],
                 "eop:parentIdentifier": content["collection"],
-                "timeStart": content["properties"]["start_datetime"],
-                "timeEnd": content["properties"]["end_datetime"],
-                "eop:resolution": content["gsd"],
                 "crs": content["properties"]["proj:epsg"],
                 "projTransform": content["properties"]["proj:transform"],
                 "assets": content["assets"]
             }
         }
 
+        # Add Cloud Cover, GSD, and Thumbnail if present
         if "eo:cloud_cover" in content["properties"]: new_json["properties"]["opt:cloudCover"] = int(content["properties"]["eo:cloud_cover"])
         if "thumbnail" in content["links"]: new_json["properties"]["thumbnailURL"] = content["links"]["thumbail"]["href"]
+        if "gsd" in content["properties"]:
+            new_json["properties"]["eop:resolution"] = content["properties"]["gsd"]
+        else:
+            new_json["properties"]["eop:resolution"] = content["gsd"]
 
-        # Fix for FMI Datetime
-        if content["properties"]["start_datetime"] is None and content["properties"]["end_datetime"] is None and content["properties"]["datetime"] is not None:
+        if ("start_datetime" not in content["properties"]) or (content["properties"]["start_datetime"] is None and content["properties"]["end_datetime"] is None and content["properties"]["datetime"] is not None):
             new_json["properties"]["timeStart"] = content["properties"]["datetime"]
             new_json["properties"]["timeEnd"] = content["properties"]["datetime"]
+        else:
+            new_json["properties"]["timeStart"] = content["properties"]["start_datetime"]
+            new_json["properties"]["timeEnd"] = content["properties"]["end_datetime"]
 
     return json.loads(json.dumps(new_json))

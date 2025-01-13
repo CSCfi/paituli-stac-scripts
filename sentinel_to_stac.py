@@ -1,6 +1,7 @@
 import pystac as stac
 import rasterio
 import re
+import argparse
 from datetime import datetime
 from shapely.geometry import box, mapping, GeometryCollection, shape
 from pystac.extensions.eo import EOExtension
@@ -276,8 +277,18 @@ def add_asset(stacItem, uri, crsmetadata=None, thumbnail=False):
 
 if __name__ == '__main__':
 
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--profile", type=str, help="AWS profile to be used.")
+    args = parser.parse_args()
+
+    # Use the given AWS profile. If not given, the default is used.
+    if args.profile:
+        profile_name = args.profile
+    else:
+        profile_name = None
+
     s2_bands = get_sentinel2_bands()
 
-    s3 = init_client()
+    s3 = init_client(profile_name)
     buckets = get_buckets(s3)
     create_collection(s3, buckets)
