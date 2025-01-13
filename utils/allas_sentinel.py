@@ -8,7 +8,7 @@ from pystac.extensions.eo import Band
 from rasterio.crs import CRS
 from rasterio.warp import transform_bounds
 
-def get_sentinel2_bands():
+def get_sentinel2_bands() -> dict:
     """
         Get the Sentinel 2 Bands
     """
@@ -57,7 +57,7 @@ def get_sentinel2_bands():
 
     return bands
 
-def init_client():
+def init_client(profile_name) -> boto3.client:
     """
         Initialize the boto3 s3 client that is used to get the Buckets from Allas
 
@@ -65,15 +65,18 @@ def init_client():
     """
 
     # Create client with credentials. Allas-conf needed to be run for boto3 to get the credentials
-    s3 = boto3.client(
+    # Profile name corresponds to the .aws/credentials file profile that contains AWS credentials that have access to Maria's project
+    # If profile name is None, Default is used
+    session = boto3.Session(profile_name = profile_name)
+    s3_client = session.client(
         service_name = "s3",
-        endpoint_url = "https://a3s.fi", 
+        endpoint_url = "https://a3s.fi",
         region_name = "regionOne"
     )
 
-    return s3
+    return s3_client
 
-def get_buckets(client):
+def get_buckets(client) -> list:
     """
         client: boto3.client
         -> buckets: list of Buckets
@@ -106,7 +109,7 @@ def transform_crs(bounds, crs_string):
         
     return bounds_transformed
 
-def get_crs(crsmetadatafile):
+def get_crs(crsmetadatafile) -> dict:
 
     """
         crsmetadatafile: The decoded content from the SAFEs CRS metadatafile
@@ -148,7 +151,7 @@ def get_metadata_content(bucket, metadatafile, client):
     metadatacontent = obj.read().decode()
     return metadatacontent
 
-def get_metadata_from_xml(metadatabody):
+def get_metadata_from_xml(metadatabody) -> dict:
 
     """
         metadatabody: The metadata content from boto3.client get_object call

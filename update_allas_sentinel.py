@@ -1,4 +1,3 @@
-import boto3
 import pystac
 import rasterio
 import re
@@ -146,7 +145,13 @@ def add_asset(stacItem, uri, crsmetadata=None, thumbnail=False):
 
 def update_catalog(app_host, csc_collection):
 
-    s3_client = init_client()
+    # Use the given AWS profile. If not given, the default is used.
+    if args.profile:
+        profile_name = args.profile
+    else:
+        profile_name = None
+
+    s3_client = init_client(profile_name)
     buckets = get_buckets(s3_client)
     session = requests.Session()
     session.auth = ("admin", pwd)
@@ -248,7 +253,8 @@ if __name__ == "__main__":
     pw_filename = '../passwords.txt'
     parser = argparse.ArgumentParser()
     parser.add_argument("--host", type=str, help="Hostname of the selected STAC API", required=True)
-    
+    parser.add_argument("--profile", type=str, help="AWS profile to be used.")
+
     args = parser.parse_args()
 
     try:
