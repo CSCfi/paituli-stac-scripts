@@ -46,7 +46,7 @@ if __name__ == "__main__":
     csc_collections = [col for col in csc_catalog_client.get_collections() if col.id.endswith("at_geocubes")]
 
     csc_title_id_map = {c.title: c.id for c in csc_collections}
-    collection_csv = pd.read_csv('karttatasot.csv', index_col='Nimi').to_dict('index')
+    collection_csv = pd.read_csv('files/karttatasot.csv', index_col='Nimi').to_dict('index')
 
     # Get the titles and IDs from CSC STAC and make the title correspond them to the ones in the CSV
     titles_and_ids = {}
