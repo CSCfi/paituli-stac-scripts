@@ -30,7 +30,8 @@ Create the local STAC files with:
 python sentinel_to_stac.py
 ```
 
-The update script is run with the selected host address.
+The update script is run with the selected host address. If you have multiple AWS profiles, provide the one you want to use with `--profile`. 
+Without the profile given as an argument, the default profile will be used.
 ```sh
 python update_allas_sentinel.py --host <host-address>
 ```
