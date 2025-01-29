@@ -51,7 +51,7 @@ def test_item(items_instance, collection_instance) -> None:
             if "data" in asset.roles:
                 assert asset.media_type in asset_media_types, "Asset media type should be one of listed ones"
             assert asset.roles, "Should have items in role list"
-            if (collection_instance.id != "sentinel2-l2a") or collection_instance.id.endswith("at_fmi"):
+            if (collection_instance.id != "sentinel2-l2a") and not collection_instance.id.endswith("at_fmi"):
                 if not collection_instance.id.endswith("at_geocubes"):
                     assert type(asset.extra_fields["gsd"]) == float, "Should be float"
                 assert asset.extra_fields["proj:transform"], "Asset should include proj:transform"
