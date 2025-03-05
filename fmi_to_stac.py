@@ -65,7 +65,7 @@ collection_info = {
         "title":
             "Sentinel-2 11-days surface reflectance mosaics (FMI Tuulituhohaukka)",
         "description":
-            "Sentinel-2 11-days surface reflectance mosaics. Scale: 10m. Original Sentinel-2 data from ESA Copernicus Sentinel Program, mosaic processing by Sentinel-2 Global Mosaic Service. Mosaic postprocessing by SYKE. Coordinate system: ETRS-TM35FIN.",
+            "Sentinel-2 11-days surface reflectance mosaics. Scale: 20m. Original Sentinel-2 data from ESA Copernicus Sentinel Program, mosaic processing by Sentinel-2 Global Mosaic Service. Mosaic postprocessing by SYKE. Coordinate system: ETRS-TM35FIN.",
         "metadata":
             "https://s2gm.land.copernicus.eu/help/documentation",
         "licenseURL":
