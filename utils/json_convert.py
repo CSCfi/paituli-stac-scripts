@@ -46,7 +46,7 @@ def convert_json_to_geoserver(json_content):
                 "primary": True,
                 "license": content["license"],
                 "providers": content["providers"],
-                "licenseLink": None,
+                "license_link": None,
                 "queryables": [
                     "eo:identifier"
                 ]
@@ -68,7 +68,7 @@ def convert_json_to_geoserver(json_content):
 
         for link in content["links"]:
             if link["rel"] == "license":
-                new_json["properties"]["licenseLink"] = {
+                new_json["properties"]["license_link"] = {
                     "href": link["href"],
                     "rel": "license",
                     "type": "application/json"

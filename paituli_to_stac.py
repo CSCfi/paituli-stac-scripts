@@ -339,7 +339,8 @@ if __name__ == "__main__":
 
                 links = [link for link in soup.find_all("a")]
                 
-                recursive_links = recursive_filecheck(page_url, links)
+                recursive_links = [] # Empty the recursive links if multiple Collections updated
+                recursive_links = recursive_filecheck(page_url, links, recursive_links)
                 
                 item_links = [link.get("href") for link in recursive_links if link.get("href").endswith(media_types[item_media_type]['ext'])]
                 if len(item_links) > 0:
@@ -433,7 +434,8 @@ if __name__ == "__main__":
 
                 links = [link for link in soup.find_all("a")]
                 
-                recursive_links = recursive_filecheck(page_url, links)
+                recursive_links = [] # Empty the recursive links if multiple Collections updated
+                recursive_links = recursive_filecheck(page_url, links, recursive_links)
                 
                 item_links = [link.get("href") for link in recursive_links if link.get("href").endswith(media_types[item_media_type]['ext'])]
                 if len(item_links) > 0:
