@@ -37,3 +37,4 @@ Pintamaalaji,Superficial deposits,The Superficial deposits of Finland (sediment 
 Tuuli,Wind velocity,Average wind velocity at the height of 50m
 MVMI muu lehtipuu,"Forest inventory, volume of other deciduous tree","Volume of growing other deciduous tree stock, from the Multi-Source National Forest Inventory of Finland"
 Sentinel-1 GBM-kuvamosaiikki 2017,"Sentinel-1 Global Backscatter Model-mosaic","Sentinel-1 satellite GBM mosaic of the temporal mean of VV- and VH-polarized C-band backscatter of the Earth's land surface, normalized to incidence angle of 38°"
+Normalisoitu pintamalli,Normalized Digital Surface Model,Surface model of both the natural and built/artificial features of the environment
