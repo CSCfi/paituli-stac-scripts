@@ -252,18 +252,29 @@ if __name__ == "__main__":
 
     with conn.cursor() as curs:
 
-        data = (selected_collections,)
-        query = "select data_id, stac_id, org_eng, name_eng, scale, year, format_eng, coord_sys, license_url, meta from dataset where access=1 and stac_id=ANY(%s)"
-        curs.execute(query, data)
+        if selected_collections:
+            data = (selected_collections,)
+            query = "select data_id, stac_id, org_eng, name_eng, scale, year, format_eng, coord_sys, license_url, meta from dataset where access=1 and stac_id=ANY(%s)"
+            curs.execute(query, data)
+        else:
+            query = "select data_id, stac_id, org_eng, name_eng, scale, year, format_eng, coord_sys, license_url, meta from dataset where access=1 and stac_id IS NOT NULL"
+            curs.execute(query)
+
         datasets = {}
         for result in curs:
             new_dict = dict(zip(["data_id", "stac_id", "org_eng", "name_eng", "scale", "year", "format_eng", "coord_sys", "license_url", "metadata"], result))
             if new_dict["stac_id"]:
                 datasets[new_dict["data_id"]] = {key: value for key, value in new_dict.items() if key != 'data_id'}
 
-    for collection in selected_collections:
-        if not any(collection in dataset.values() for dataset in datasets.values()):
-            print(f"! Collection \"{collection}\" not found, make sure the ID is correct.")
+    if selected_collections:
+        failed_collections = 0
+        for collection in selected_collections:
+            if not any(collection in dataset.values() for dataset in datasets.values()):
+                print(f"! Collection \"{collection}\" not found, make sure the ID is correct.")
+                failed_collections = failed_collections + 1
+    
+        if len(selected_collections) == failed_collections:
+            raise ValueError("No valid collection IDs provided.")
     
     # Group the datasets to NetCDF and The Others
     netcdf_datasets = {x : datasets[x] for x in datasets if datasets[x]['format_eng'] == "NetCDF"}
