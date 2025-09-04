@@ -12,7 +12,7 @@ from rio_stac.stac import create_stac_item
 from shapely.geometry import GeometryCollection, shape
 from bs4 import BeautifulSoup
 
-from utils.paituli import recursive_filecheck, generate_item_id, generate_timestamps
+from utils.paituli import recursive_filecheck, generate_item_id, generate_timestamps, generate_metadata_links
 
 online_data_prefix = "https://www.nic.funet.fi/index/geodata/"
 puhti_data_prefix = "/appl/data/geo/"
@@ -97,13 +97,6 @@ def create_collection(catalog, data_dict) -> pystac.Collection:
                 roles = ["host"]
             ),
         ],
-        assets={
-            "meta": pystac.Asset(
-                href = "https://urn.fi/"+data_dict["metadata"],
-                title = "Metadata",
-                roles = ["metadata"]
-            )
-        },
         extra_fields={
             "scale": [data_dict["scale"]],
             "coord_sys": [data_dict["coord_sys"]]
@@ -259,13 +252,18 @@ if __name__ == "__main__":
 
     with conn.cursor() as curs:
 
-        query = "select data_id, stac_id, org_eng, name_eng, scale, year, format_eng, coord_sys, license_url, meta from dataset where access=1 and (format_eng like 'JP%' or format_eng like 'PNG%' or format_eng like 'Net%' or format_eng like 'TIFF%') order by 1, 2, 3, 5, 6;"
-        curs.execute(query)
+        data = (selected_collections,)
+        query = "select data_id, stac_id, org_eng, name_eng, scale, year, format_eng, coord_sys, license_url, meta from dataset where access=1 and stac_id=ANY(%s)"
+        curs.execute(query, data)
         datasets = {}
         for result in curs:
             new_dict = dict(zip(["data_id", "stac_id", "org_eng", "name_eng", "scale", "year", "format_eng", "coord_sys", "license_url", "metadata"], result))
             if new_dict["stac_id"]:
                 datasets[new_dict["data_id"]] = {key: value for key, value in new_dict.items() if key != 'data_id'}
+
+    for collection in selected_collections:
+        if not any(collection in dataset.values() for dataset in datasets.values()):
+            print(f"! Collection \"{collection}\" not found, make sure the ID is correct.")
     
     # Group the datasets to NetCDF and The Others
     netcdf_datasets = {x : datasets[x] for x in datasets if datasets[x]['format_eng'] == "NetCDF"}
@@ -460,5 +458,13 @@ if __name__ == "__main__":
         temporal = [[min(start_times), max(end_times)]]
         collection.extent.spatial = pystac.SpatialExtent(bounds)
         collection.extent.temporal = pystac.TemporalExtent(temporal)
-    
+
+    # Add metadata assets for made collections
+    for collection in selected_collections:
+        collection_datasets = [datasets[col] for col in datasets if datasets[col]["stac_id"] == collection]
+        made_collection = catalog.get_child(collection)
+        assets_to_add = generate_metadata_links(collection_datasets)
+        made_collection.assets = assets_to_add
+
+    conn.close()
     catalog.normalize_and_save("Paituli", skip_unresolved=True)
