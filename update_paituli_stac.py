@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
 from utils.json_convert import convert_json_to_geoserver
-from utils.paituli import recursive_filecheck, get_new_local_files, generate_timestamps, generate_item_id
+from utils.paituli import recursive_filecheck, get_new_local_files, generate_timestamps, generate_item_id, generate_metadata_links
 
 def create_item(path: str, data_dict: dict, item_media_type: str, label: str | None) -> pystac.Item:
 
@@ -106,6 +106,7 @@ def create_item(path: str, data_dict: dict, item_media_type: str, label: str | N
         asset_media_type = media_types[item_media_type]["mime"], 
         with_proj = True
     )
+    
     # If add_puhti argument given, add puhti asset
     if args.add_puhti:
         puhti_asset = asset.clone()
@@ -365,6 +366,8 @@ def update_catalog_collection(app_host: str, csc_catalog_client: pystac_client.C
                         r.raise_for_status()
 
         if added_items_flag or args.update_extents:
+            assets_to_add = generate_metadata_links(datasets[stac_id])
+            csc_collection.assets = assets_to_add
             csc_collection.update_extent_from_items()
             collection_dict = csc_collection.to_dict()
             converted_collection = convert_json_to_geoserver(collection_dict)
@@ -375,6 +378,8 @@ def update_catalog_collection(app_host: str, csc_catalog_client: pystac_client.C
             print(" + Updated collection extents.")
         else:
             print(f" - No new items for {csc_collection.id}")
+    
+    conn.close()
         
 if __name__ == "__main__":
 

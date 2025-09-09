@@ -2,7 +2,7 @@ import requests
 import datetime
 import os
 import re
-
+import pystac
 from bs4 import BeautifulSoup
 
 def recursive_filecheck(url: str, links: list[str], recursive_links: list) -> list:
@@ -52,7 +52,6 @@ def get_new_local_files() -> list:
                 new_paths.append(modified_path)
 
     return new_paths
-
 
 def generate_timestamps(path: str, data_dict: dict, label: str | None) -> dict:
 
@@ -212,3 +211,38 @@ def generate_item_id(path: str, data_dict: dict, item_date: str, label: str | No
         item_id = item_id.replace(label_split, fix)
 
     return item_id
+
+def generate_metadata_links(dataset_dict: dict) -> dict:
+    """
+        Generate metadata links for Collection. If multiple links, differentiate by year.
+
+        datadict: dict - Database data of the datasets
+    """
+
+    metadata_dict = {}
+    asset_dict = {}
+
+    for dataset in dataset_dict:
+        new_metadata_url = f"https://urn.fi/{dataset['metadata']}"
+        if new_metadata_url not in metadata_dict:
+            metadata_dict[new_metadata_url] = [dataset["year"]]
+        else:
+            metadata_dict[new_metadata_url].append(dataset["year"])
+
+
+        for link in metadata_dict:
+            if len(metadata_dict[link]) > 1:
+                # sort years by the start year
+                sorted_years = sorted(metadata_dict[link], key=lambda x: int(x.split('-')[0]))
+                years_string = " ".join(sorted_years)
+            else:
+                years_string = metadata_dict[link][0]
+
+            key = f"metadata_{metadata_dict[link][0]}"
+            asset_dict[key] = pystac.Asset(
+                        href = link,
+                        title = f"Metadata {years_string}",
+                        roles = ["metadata"]
+                    )
+
+    return asset_dict
