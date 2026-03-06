@@ -1,9 +1,9 @@
 import pystac_client
 import pystac
 import pytest
-import stackstac
 import xarray
 import pyproj
+import odc.stac
 
 @pytest.fixture
 def catalog_instance(app_host) -> pystac.Collection:
@@ -23,7 +23,7 @@ def mediatype_instance(collection_instance) -> str:
     return media_type
 
 @pytest.mark.xfail(mediatype_instance == "application/x-netcdf", reason="NetCDF not supported")
-def test_stackstac(catalog_instance, collection_id) -> None:
+def test_cube(catalog_instance, collection_id) -> None:
 
     lon, lat = 24.945, 60.173
     search = catalog_instance.search(
@@ -32,17 +32,17 @@ def test_stackstac(catalog_instance, collection_id) -> None:
     )
     item_collection = search.item_collection()
 
-    epsg = item_collection[0].properties["proj:epsg"]
-    x, y = pyproj.Proj(f"EPSG:{epsg}")(lon, lat)
-    buffer = 5000 
+    epsg = item_collection[0].properties["proj:code"]
+    gsd = item_collection[0].properties["gsd"]
     asset_keys = list(item_collection[0].assets.keys())
 
-    cube = stackstac.stack(
-        items=item_collection,
-        bounds=(x-buffer, y-buffer, x+buffer, y+buffer), 
-        assets=asset_keys,
-        epsg=epsg
-    ).squeeze() 
+    cube = odc.stac.load(
+        item_collection,
+        bands=asset_keys,
+        crs=epsg,
+        resolution=gsd,
+        chunks={"time": 1, "band": 1, "y": 1024, "x": 1024}
+    ).squeeze()
 
-    assert type(cube) == xarray.DataArray, "Should be DataArray"
+    assert type(cube) == xarray.Dataset, "Should be Dataset"
     assert cube.time.any(), "Should have time attribute"
