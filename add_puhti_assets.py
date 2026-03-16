@@ -58,7 +58,7 @@ if __name__ == "__main__":
             item_dict = item.to_dict()
             converted_item = convert_json_to_geoserver(item_dict)
             request_point = f"collections/{stac_col.id}/products/{item.id}"
-            r = requests.put(urljoin(app_host, request_point), json=converted_item, auth=("admin", pwd), log_headers={"User-Agent":"update-script"})
+            r = requests.put(urljoin(app_host, request_point), json=converted_item, auth=("admin", pwd), headers={"User-Agent":"update-script"})
             r.raise_for_status()
             added_puhti_link_count += 1
 
