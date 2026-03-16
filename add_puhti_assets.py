@@ -3,6 +3,7 @@ import requests
 import re
 import argparse
 import getpass
+import pandas as pd
 from urllib.parse import urljoin
 
 from utils.json_convert import convert_json_to_geoserver
@@ -12,13 +13,19 @@ if __name__ == "__main__":
     online_data_prefix = "https://www.nic.funet.fi/index/geodata/"
     puhti_data_prefix = "/appl/data/geo/"
     puhti_pattern = "at_puhti"
+    pw_filename = '../passwords.txt'
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--collections", nargs="+", help="Specific collection", required=True)
     parser.add_argument("--host", type=str, help="Hostname of the selected STAC API", required=True)
 
     args = parser.parse_args()
-    pwd = getpass.getpass()
+    try:
+        pw_file = pd.read_csv(pw_filename, header=None)
+        pwd = pw_file.at[0,0]
+    except FileNotFoundError:
+        print("No password given.")
+        pwd = getpass.getpass("GeoServer Password: ")
 
     app_host = f"{args.host}/geoserver/rest/oseo/"
     catalog = pystac_client.Client.open(f"{args.host}/geoserver/ogc/stac/v1/", headers={"User-Agent":"update-script"})
