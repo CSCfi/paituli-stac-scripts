@@ -36,8 +36,8 @@ def test_item(items_instance, collection_instance) -> None:
             assert item.properties["gsd"] > 0, "Should be more than 0"
             assert item.properties["proj:transform"], "Item should include proj:transform"
 
-        # assert type(item.properties["proj:code"]) == int, "Should be int"
-        # assert item.properties["proj:code"] in epsg_codes, "Should be a valid EPSG code"
+        assert type(item.properties["proj:epsg"]) == int, "Should be int"
+        assert item.properties["proj:epsg"] in epsg_codes, "Should be a valid EPSG code"
         assert timespan[0][0] <= item.datetime <= timespan[0][1], "Datetime should be within Collection timerange"
 
         assert len(item.assets) > 0, "Should be more than 0"
