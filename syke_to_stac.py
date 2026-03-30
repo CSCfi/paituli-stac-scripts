@@ -52,11 +52,10 @@ def get_geometry_from_tif(href):
             ]
             proj_shape = src.shape
 
-            #print(f"  Fetched geometry from: {href}")
             return geometry, bbox, epsg, proj_transform, proj_shape
     except Exception as e:
         print(f"  Warning: could not read geometry from {href}: {e}")
-        return None, None, None, None
+        return None, None, None, None, None
 
 
 # --- Create Items and Assets from CSV rows ---
@@ -68,6 +67,7 @@ def create_items_from_csv(collection, df):
         # Use first asset's GeoTIFF to extract geometry (cached)
         first_href = group["file"].iloc[0]
         geometry, bbox, epsg, proj_transform, proj_shape = get_geometry_from_tif(first_href)
+        collection_gsd = int(collection.summaries.get_list("gsd")[0]) # Use the GSD from Collection Summaries
 
         # Create the Item
         item = pystac.Item(
@@ -80,7 +80,7 @@ def create_items_from_csv(collection, df):
                 "end_datetime": end_date.isoformat() + "Z",
                 "proj:epsg": epsg,
                 "proj:transform": proj_transform,
-                "gsd": int(collection.summaries.get_list("gsd")[0]) # Use the GSD from Collection Summaries
+                "gsd": collection_gsd
             }
         )
 
@@ -97,16 +97,13 @@ def create_items_from_csv(collection, df):
                     extra_fields={
                         "proj:transform": proj_transform,
                         "proj:shape": proj_shape,
-                        "gsd": int(collection.summaries.get_list("gsd")[0]) # Use the GSD from Collection Summaries
+                        "gsd": collection_gsd
                     }
                 )
             )
 
         collection.add_item(item)
         print(f"  Added item: {item_id} with {len(group)} assets, bbox: {bbox}, epsg: {epsg}")
-    # Print cache stats
-    # info = get_geometry_from_tif.cache_info()
-    # print(f"Cache stats — hits: {info.hits}, misses: {info.misses}")
 
 # --- Create and populate catalog ---
 def create_collections(root_catalog):
@@ -133,7 +130,7 @@ if __name__ == "__main__":
     collections = create_collections(root_catalog)
 
     for collection, csv_file in collections:
-        print(f"\nCollection: {collection.id}")
+        print(f" Collection: {collection.id}")
         df = load_csv(csv_file)
         print(f"  Loaded {len(df)} rows, {df['item_id'].nunique()} unique items")
         create_items_from_csv(collection, df)
@@ -144,4 +141,4 @@ if __name__ == "__main__":
     root_catalog.normalize_hrefs(output_path)
     root_catalog.save(catalog_type=pystac.CatalogType.RELATIVE_PUBLISHED)
 
-    print("\nCatalog saved to:", output_path)
+    print(" Catalog saved to:", output_path)

@@ -32,7 +32,7 @@ def test_cube(catalog_instance, collection_id) -> None:
     )
     item_collection = search.item_collection()
 
-    epsg = item_collection[0].properties["proj:code"]
+    epsg = item_collection[0].properties["proj:epsg"]
     gsd = item_collection[0].properties["gsd"]
     asset_keys = list(item_collection[0].assets.keys())
 
