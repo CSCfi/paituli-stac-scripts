@@ -1,5 +1,7 @@
 # Templates for new data collection to Paituli STAC
 
+For terminology see: https://paituli.csc.fi/stac.html
+
 ## Collection JSON
 
 [Example Collection JSON](collection.json)
