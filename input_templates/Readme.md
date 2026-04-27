@@ -11,7 +11,16 @@ Comments about the elements:
 * `description` - Description of the dataset, one paragraph, a few rows long. Longer description should be behind the metadata link. End the description with CRS info. "Coordinate system: xxx."
 * `assets`/`metadata` - URL link to longer metadata, can be any metadata service. If possible, use DOI, URN or other PID.
 * `licenseURL` - link to license file, can be left empty
-* `license` - See options: https://github.com/radiantearth/stac-spec/blob/master/collection-spec/collection-spec.md#license
-* `providers` - See options: https://github.com/radiantearth/stac-spec/blob/master/collection-spec/collection-spec.md#provider-object
+* `license` - [See STAC spec license](https://github.com/radiantearth/stac-spec/blob/master/collection-spec/collection-spec.md#license)
+* `providers` - [See STAC spec provides](https://github.com/radiantearth/stac-spec/blob/master/collection-spec/collection-spec.md#provider-object)
 * `summaries`/`gsd` - pixel size
 * `summaries`/`bands` - name for each band in the raster file
+
+## Items CSV
+
+[Example Items CSV](items.csv)
+* `file` - URL of the Item's Asset data file
+* `start-date` and `end-date` - data start and end dates, if you only have at year level, then use 1.1.2013;31.12.2013
+* `collection` - has to match the Collection's `id` in the JSON-file
+* `asset` - name of the asset, no spaces, no special chars. In the collection Items have same asset names, but one Item can have several assets.
+* `item_id` - name of the item, no spaces, no special chars. Unique for each time/bbox combination. If several assets are provided for the same Item, can be several times in the CSV.
