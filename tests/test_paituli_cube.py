@@ -29,6 +29,7 @@ def test_cube(catalog_instance, collection_id) -> None:
     search = catalog_instance.search(
         intersects=dict(type="Point", coordinates=[lon, lat]),
         collections=[collection_id],
+        max_items=100
     )
     item_collection = search.item_collection()
 

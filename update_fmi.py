@@ -26,8 +26,12 @@ def update_catalog(app_host, csc_catalog_client):
     session.auth = ("admin", pwd)
     log_headers = {"User-Agent": "update-script"} # Added for easy log-filtering
 
-    # Get all FMI collections from the app_host
-    csc_collections = [col for col in csc_catalog_client.get_collections() if col.id.endswith("at_fmi")]
+    # Get all FMI collections from the app_host excluding the skipped collections
+    # The new SYKE collections are picked up by this update logic, but additional logic is needed to fetch new Items for those Collections
+    # TODO: Change this logic to fetch only certain collections or something else when more SYKE Collections arrive
+    csc_collections = [col for col in csc_catalog_client.get_collections() if col.id.endswith("at_fmi") and col.id not in collections_to_skip and not col.id.startswith("syke")]
+    if collections_to_skip:
+        print(f"! Skipping {", ".join(collections_to_skip)}")
 
     for collection in csc_collections:
 
@@ -57,6 +61,8 @@ def update_catalog(app_host, csc_catalog_client):
                     data = json.load(url)
                     data["extent"]["temporal"]["interval"] = [data["extent"]["temporal"]["interval"]]
                     sub_collections.append(Collection.from_dict(data))
+            except Exception:
+                raise Exception(f"Child Collection link is broken in {collection.id} {link.target}")
 
         item_links = list(set([link.target for sub in sub_collections for link in sub.get_item_links()]))
         csc_item_ids = {item.id for item in collection.get_items()}
@@ -136,9 +142,11 @@ if __name__ == "__main__":
     pw_filename = '../passwords.txt'
     parser = argparse.ArgumentParser()
     parser.add_argument("--host", type=str, help="Hostname of the selected STAC API", required=True)
+    parser.add_argument("--skip", nargs="+", help="Skips the given collection IDs")
     
     args = parser.parse_args()
-
+    collections_to_skip = args.skip if args.skip else []
+    
     try:
         pw_file = pd.read_csv(pw_filename, header=None)
         pwd = pw_file.at[0,0]

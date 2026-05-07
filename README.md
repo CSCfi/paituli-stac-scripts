@@ -43,9 +43,9 @@ To turn the FMI's static STAC files into a local STAC Catalog:
 python fmi_to_stac.py
 ```
 
-The update script is these above two scripts combined without needing to save the STAC Catalog locally. To run the update script, you need to provide the host address through the `--host` argument and the GeoServer password via a password-file, through `--pwd` argument or the script will ask it afterwards.
+The update script is these above two scripts combined without needing to save the STAC Catalog locally. To run the update script, you need to provide the host address through the `--host` argument and the GeoServer password via a password-file, through `--pwd` argument or the script will ask it afterwards. If you want to skip some misbehaving Collections, give them via the `--skip` argument.
 ```sh
-python update_fmi.py --host <host address> --pwd <GeoServer password>
+python update_fmi.py --host <host address> --pwd <GeoServer password> --skip <Collection IDs>
 ```
 
 ### GeoCubes
