@@ -1,0 +1,65 @@
+{
+	"type": "Collection",
+	"id":
+		"collection_short_title_with_underscores_at_service",
+	"stac_version": "1.0.0",
+	"title":
+		"Collection title with spaces, if important include scale, but not year",
+	"description":
+		"Description of the dataset, one paragraph, a few rows long. Coordinate system: xxx.",
+	"links": [],
+	"assets": {
+		"metadata": {
+			"href": "https://metadata.com/collections-metadata-link",
+			"title": "Metadata",
+			"roles": [
+				"metadata"
+			]
+		}
+	},
+	"licenseURL":
+		"href": "https://metadata.com/collections-metadata-link/license-link",
+	"license":
+		"CC-BY-4.0",
+	"extent": {
+			"spatial": { "bbox": [[-180, -90, 180, 90]] },
+			"temporal": { "interval": [["2020-01-01T00:00:00Z", null]] }
+		},
+	"providers": [
+		{
+			"name": "XX",
+			"url": "https://xx.fi/",
+			"roles":[
+				"host"
+			]
+		},
+		{
+			"name":"YY",
+			"url": "https://YY.gov/",
+			"roles": [
+				"producer"
+			]
+		},
+		{
+			"name": "ZZ",
+			"url": "https://www.zz.fi",
+			"roles":[
+				"processor",
+				"licensor"
+			]
+		}
+	],
+	"summaries": {
+		"gsd": [
+			20 
+		],
+		"bands": [
+			{
+			"name": "band1"
+			},
+			{
+			"name": "band2"
+			}
+		]
+	}
+}

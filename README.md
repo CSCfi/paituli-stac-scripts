@@ -11,7 +11,7 @@ Run `paituli_to_stac.py` to create the Catalog and Collections. The script requi
 python paituli_to_stac.py --port <DB-port> --db_host <Database host address>
 ```
 
-Run `add_puhti_assets.py` to add assets to each Item which have the local Puhti HREF. You need to provide the collection ID with `--collection` and the GeoServer host with `--host`.
+Run `add_puhti_assets.py` to add assets to each Item which have the local Puhti HREF. You need to provide the collection/s ID with `--collections` and the GeoServer host with `--host`.
 ```bash
 python add_puhti_assets.py --host <Host address> --collection <Collection ID>
 ```
