@@ -12,6 +12,14 @@ from shapely.geometry import box, mapping
 dir_path = os.path.dirname(os.path.realpath(__file__))
 pystac.version.set_stac_version('1.0.0')
 
+# The files are named the same so just listing the filename and switching the file-extension should work. If files are named differently later, make a dictionary or db.
+syke_collection_files = [
+    "Harmonized_Landsat57_satellite_image_mosaic_timeseries",
+    "Harmonized_Landsat89_satellite_image_mosaic_timeseries",
+    "Sentinel2_reflectance_mosaic_2017_2021",
+    "Sentinel2_reflectance_mosaic_2022_onwards"
+]
+
 # --- Load collection from JSON ---
 def load_collection(filename):
     path = f"{dir_path}/files/{filename}"
@@ -103,20 +111,16 @@ def create_items_from_csv(collection, df):
             )
 
         collection.add_item(item)
-        print(f"  Added item: {item_id} with {len(group)} assets, bbox: {bbox}, epsg: {epsg}")
+        print(f"  Added item: {item_id} with {len(group)} assets, bbox: {bbox}")
 
 # --- Create and populate catalog ---
 def create_collections(root_catalog):
     collections = []
 
-    col57 = load_collection("Harmonized_Landsat57_satellite_image_mosaic_timeseries.json")
-    col89 = load_collection("Harmonized_Landsat89_satellite_image_mosaic_timeseries.json")
-
-    root_catalog.add_child(col57)
-    root_catalog.add_child(col89)
-
-    collections.append((col57, "Harmonized_Landsat57_satellite_image_mosaic_timeseries.csv"))
-    collections.append((col89, "Harmonized_Landsat89_satellite_image_mosaic_timeseries.csv"))
+    for collection in syke_collection_files:
+        collection_json = load_collection(collection + ".json")
+        root_catalog.add_child(collection_json)
+        collections.append((collection_json, collection + ".csv"))
 
     return collections
 

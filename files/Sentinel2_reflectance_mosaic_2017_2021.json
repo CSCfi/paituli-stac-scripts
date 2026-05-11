@@ -1,0 +1,116 @@
+{
+	"type": "Collection",
+	"stac_version": "1.0.0",
+	"id":
+		"syke_sentinel2_reflectance_mosaics_2017_2021_at_fmi",
+	"title":
+		"Sentinel-2 reflectance 3-month mosaics, years 2017-2021",
+	"description":
+		"Sentinel-2 satellite image mosaics are produced from data provided by MultiSpectral Instruments (MSI) onboard Sentinel-2 satellites. These mosaics covering years 2017 - 2021 have been produced using the first version of Sentinel-2 Global Mosaic-service (https://s2gm.land.copernicus.eu/mosaic-hub) of Copernicus program of European Union. The image acquisition period for summer mosaics have been from the start of July to the end of September. There are also spring mosaics available for some years, their image acquisition period has been from the start of April to the end of June. The value of pixel of the individual bands is the estimate of ground reflectance, multiplied by coefficient 10000. The RGB-images (bands B08, B04, B03) have been scaled to 8-bit in order to make visualization easier. Pixel size of all mosaics is 10 m. The holes due to cloud masking have been interpolated and the mask_nodata-mosaic indicates these pixels. Original Sentinel data CLMS / ESA, mosaic processing by S2GM-service with postprocessing by SYKE. Coordinate system: ETRS-TM35FIN.",
+	"licenseURL":
+		"",
+	"license":
+		"CC-BY-4.0",
+	"links": [],
+	"assets": {
+		"metadata": {
+		"href": "https://ckan.ymparisto.fi/dataset/sentinel-2-satellite-image-mosaics-2017-2021-s2gm-sentinel-2-satelliittikuvamosaiikki-2017-2021",
+		"title": "Metadata",
+		"roles": [
+			"metadata"
+		]
+		}
+	},
+	"extent": {
+		"spatial": { "bbox": [[-180, -90, 180, 90]] },
+		"temporal": { "interval": [["2017-01-01T00:00:00Z", null]] }
+	},
+	"providers": [
+		{
+			"name": "FMI",
+			"url": "https://en.ilmatieteenlaitos.fi/",
+			"roles":[
+				"host"
+			]
+		},
+		{
+			"name":"ESA",
+			"url": "https://www.esa.int/",
+			"roles": [
+				"producer"
+			]
+		},
+		{
+			"name": "SYKE",
+			"url": "https://www.syke.fi/en",
+			"roles":[
+				"processor",
+				"licensor"
+			]
+		}
+	],
+	"summaries": {
+		"gsd": [
+			10 
+		],
+		"bands": [
+			{
+			"name": "b2"
+			},
+			{
+			"name": "b2_mask_nodata"
+			},
+			{
+			"name": "b3"
+			},
+			{
+			"name": "b3_mask_nodata"
+			},
+			{
+			"name": "b4"
+			},
+			{
+			"name": "b4_mask_nodata"
+			},
+			{
+			"name": "b5"
+			},
+			{
+			"name": "b5_mask_nodata"
+			},
+			{
+			"name": "b6"
+			},
+			{
+			"name": "b6_mask_nodata"
+			},
+			{
+			"name": "b7"
+			},
+			{
+			"name": "b7_mask_nodata"
+			},
+			{
+			"name": "b8"
+			},
+			{
+			"name": "b8_mask_nodata"
+			},
+			{
+			"name": "b11"
+			},
+			{
+			"name": "b11_mask_nodata"
+			},
+			{
+			"name": "b12"
+			},
+			{
+			"name": "b12_mask_nodata"
+			},
+			{
+			"name": "rgb"
+			}
+		]
+	}
+}
