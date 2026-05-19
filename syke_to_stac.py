@@ -17,7 +17,8 @@ syke_collection_files = [
     "Harmonized_Landsat57_satellite_image_mosaic_timeseries",
     "Harmonized_Landsat89_satellite_image_mosaic_timeseries",
     "Sentinel2_reflectance_mosaic_2017_2021",
-    "Sentinel2_reflectance_mosaic_2022_onwards"
+    "Sentinel2_reflectance_mosaic_2022_onwards",
+    "harmonized_finnish_corine_land_cover_at_aquainfra"
 ]
 
 # --- Load collection from JSON ---
