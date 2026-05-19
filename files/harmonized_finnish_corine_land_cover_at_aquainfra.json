@@ -1,0 +1,63 @@
+{
+	"type": "Collection",
+	"id":
+		"harmonized_finnish_corine_land_cover_at_aquainfra",
+	"stac_version": "1.0.0",
+	"title":
+		"Harmonized Corine Land Cover (AquaInfra)",
+	"description":
+		"The Harmonized Corine Land Cover is meant for change detection and is calculated from national Corine land cover products 2000, 2006, 2012 and 2018. All years have same classification with 46 classes according to Corine 2018. The files were converted into cloud optimized Geotiffs to allow more convenient access to the data by the analysis tools developed for the AquaINFRA project. Pixel size 20m. Coordinate system: EPSG:3067",
+	"links": [],
+	"assets": {
+		"metadata": {
+			"href": "https://doi.org/10.23728/b2share.sxg8d-nbw81",
+			"title": "Metadata",
+			"roles": [
+				"metadata"
+			]
+		}
+	},
+	"licenseURL":
+		"https://www.syke.fi/en/environmental-data/use-license-and-responsibilities",
+	"license":
+		"CC-BY-4.0",
+	"extent": {
+			"spatial": { "bbox": [[-180, -90, 180, 90]] },
+			"temporal": { "interval": [["2020-01-01T00:00:00Z", null]] }
+		},
+	"providers": [
+		{
+			"name": "CSC",
+			"url": "https://www.csc.fi/en",
+			"roles":[
+				"host"
+			]
+		},
+		{
+			"name": "AquaInfra",
+			"url": "https://aquainfra.eu/",
+			"roles":[
+				"host"
+			]
+		},		
+		{
+			"name": "Finnish Environment Institute",
+			"url": "https://www.syke.fi/en",
+			"roles":[
+				"producer",			
+				"processor",
+				"licensor"
+			]
+		}
+	],
+	"summaries": {
+		"gsd": [
+			20 
+		],
+		"bands": [
+			{
+			"name": "landcover"
+			}
+		]
+	}
+}
