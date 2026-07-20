@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 from utils.paituli import recursive_filecheck, generate_item_id, generate_timestamps, generate_metadata_links
 
 online_data_prefix = "https://www.nic.funet.fi/index/geodata/"
-puhti_data_prefix = "/appl/data/geo/"
+roihu_data_prefix = "/dataset/project_2019680/"
 
 media_types = {
     "TIFF": {

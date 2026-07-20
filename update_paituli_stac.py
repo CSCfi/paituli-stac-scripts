@@ -107,12 +107,12 @@ def create_item(path: str, data_dict: dict, item_media_type: str, label: str | N
         with_proj = True
     )
     
-    # If add_puhti argument given, add puhti asset
-    if args.add_puhti:
-        puhti_asset = asset.clone()
-        puhti_asset.href = re.sub(online_data_prefix, puhti_data_prefix, puhti_asset.href)
-        puhti_asset.title = re.sub("paituli", "puhti", puhti_asset.title)
-        item.add_asset(key=puhti_asset.title, asset=puhti_asset)
+    # If add_roihu argument given, add roihu asset
+    if args.add_roihu:
+        roihu_asset = asset.clone()
+        roihu_asset.href = re.sub(online_data_prefix, roihu_data_prefix, roihu_asset.href)
+        roihu_asset.title = re.sub("paituli", "roihu", roihu_asset.title)
+        item.add_asset(key=roihu_asset.title, asset=roihu_asset)
 
     item.extra_fields["gsd"] = item.assets[asset_id].extra_fields["gsd"]
     item.common_metadata.start_datetime = item_timestamps["item_start_time"]
@@ -265,12 +265,12 @@ def update_catalog_collection(app_host: str, csc_catalog_client: pystac_client.C
                                             }
                                         )
                                     item_to_add_asset.add_asset(key=asset_id, asset=asset)
-                                    # If add_puhti argument given, add puhti assets
-                                    if args.add_puhti:
-                                        puhti_asset = asset.clone()
-                                        puhti_asset.href = re.sub(online_data_prefix, puhti_data_prefix, puhti_asset.href)
-                                        puhti_asset.title = re.sub("paituli", "puhti", puhti_asset.title)
-                                        item_to_add_asset.add_asset(key=puhti_asset.title, asset=puhti_asset)
+                                    # If add_roihu argument given, add roihu assets
+                                    if args.add_roihu:
+                                        roihu_asset = asset.clone()
+                                        roihu_asset.href = re.sub(online_data_prefix, roihu_data_prefix, roihu_asset.href)
+                                        roihu_asset.title = re.sub("paituli", "roihu", roihu_asset.title)
+                                        item_to_add_asset.add_asset(key=roihu_asset.title, asset=roihu_asset)
 
                                     item_dict = item_to_add_asset.to_dict()
                                     converted_item = convert_json_to_geoserver(item_dict)
@@ -336,12 +336,12 @@ def update_catalog_collection(app_host: str, csc_catalog_client: pystac_client.C
                                 )
                             item_to_add_asset.add_asset(key=asset_id, asset=asset)
 
-                            # If add_puhti argument given, add puhti assets
-                            if args.add_puhti:
-                                puhti_asset = asset.clone()
-                                puhti_asset.href = re.sub(online_data_prefix, puhti_data_prefix, puhti_asset.href)
-                                puhti_asset.title = re.sub("paituli", "puhti", puhti_asset.title)
-                                item_to_add_asset.add_asset(key=puhti_asset.title, asset=puhti_asset)
+                            # If add_roihu argument given, add roihu assets
+                            if args.add_roihu:
+                                roihu_asset = asset.clone()
+                                roihu_asset.href = re.sub(online_data_prefix, roihu_data_prefix, roihu_asset.href)
+                                roihu_asset.title = re.sub("paituli", "roihu", roihu_asset.title)
+                                item_to_add_asset.add_asset(key=roihu_asset.title, asset=roihu_asset)
 
                             item_dict = item_to_add_asset.to_dict()
                             converted_item = convert_json_to_geoserver(item_dict)
@@ -386,7 +386,7 @@ if __name__ == "__main__":
     start = time.time()
     config_filename = '../passwords.txt'
     online_data_prefix = "https://www.nic.funet.fi/index/geodata/"
-    puhti_data_prefix = "/appl/data/geo/"
+    roihu_data_prefix = "/dataset/project_2019680/"
     media_types = {
         "TIFF": {
             "mime": "image/tiff; application=geotiff",
@@ -408,7 +408,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--local", action='store_true')
-    parser.add_argument("--add_puhti", action='store_true')
+    parser.add_argument("--add_roihu", action='store_true')
     parser.add_argument("--update_extents", action="store_true")
     parser.add_argument("--port", type=str, help="Port for the paituli database")
     parser.add_argument("--collections", nargs="+", help="Specific collections to be made", required=True)

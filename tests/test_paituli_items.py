@@ -43,7 +43,7 @@ def test_item(items_instance, collection_instance) -> None:
         assert len(item.assets) > 0, "Should be more than 0"
         for x in item.assets:
             asset = item.assets[x]
-            if asset.href.startswith("/appl/data/geo"):
+            if asset.href.startswith("/dataset/project_2019680"):
                 continue
             r = requests.head(asset.href)
             assert r.status_code == 200, "The asset HREF should return status code 200"
