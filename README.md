@@ -11,12 +11,12 @@ Run `paituli_to_stac.py` to create the Catalog and Collections. The script requi
 python paituli_to_stac.py --port <DB-port> --db_host <Database host address>
 ```
 
-Run `add_puhti_assets.py` to add assets to each Item which have the local Puhti HREF. You need to provide the collection/s ID with `--collections` and the GeoServer host with `--host`.
+Run `add_roihu_assets.py` to add assets to each Item which have the local Roihu HREF. You need to provide the collection/s ID with `--collections` and the GeoServer host with `--host`.
 ```bash
-python add_puhti_assets.py --host <Host address> --collection <Collection ID>
+python add_roihu_assets.py --host <Host address> --collection <Collection ID>
 ```
 
-Run `update_paituli_stac.py` to update collection/s. Multiple collections can be given with the `--collections`, but atleast one needs to be given. The host address is given via `--host`. Give the database host address with `--db_host`. The DB port can be given with `--port` or with additional input. Using the `--local` flag, the script checks the local files for new files. Using the `--add_puhti` flag, the script will add Puhti assets for the new Items. Using the `--update_extents` flag, the script will update the Collection Extents even if no Items were added.
+Run `update_paituli_stac.py` to update collection/s. Multiple collections can be given with the `--collections`, but atleast one needs to be given. The host address is given via `--host`. Give the database host address with `--db_host`. The DB port can be given with `--port` or with additional input. Using the `--local` flag, the script checks the local files for new files. Using the `--add_roihu` flag, the script will add Roihu assets for the new Items. Using the `--update_extents` flag, the script will update the Collection Extents even if no Items were added.
 ```bash
 python update_paituli_stac.py --port <DB-port> --db_host <Database host address> --host <Host address> --collections <Collection ID>
 ```

@@ -11,8 +11,8 @@ from utils.json_convert import convert_json_to_geoserver
 if __name__ == "__main__":
 
     online_data_prefix = "https://www.nic.funet.fi/index/geodata/"
-    puhti_data_prefix = "/appl/data/geo/"
-    puhti_pattern = "at_puhti"
+    roihu_data_prefix = "/dataset/project_2019680/"
+    roihu_pattern = "at_roihu"
     pw_filename = '../passwords.txt'
 
     parser = argparse.ArgumentParser()
@@ -35,18 +35,18 @@ if __name__ == "__main__":
         stac_col = catalog.get_child(collection)
         items = list(stac_col.get_items())
         number_of_items = len(items)
-        added_puhti_link_count = 0
+        added_roihu_link_count = 0
         
         for item in items:
             assets = item.assets
-            # If Puhti assets added for some Items, skip them
-            if any(puhti_pattern in asset_id for asset_id in assets):
+            # If Roihu assets added for some Items, skip them
+            if any(roihu_pattern in asset_id for asset_id in assets):
                 continue
             cloned_assets = []
             for asset in assets:
                 cloned_asset = assets[asset].clone()
-                cloned_asset.href = re.sub(online_data_prefix, puhti_data_prefix, cloned_asset.href)
-                cloned_asset.title = re.sub("paituli", "puhti", cloned_asset.title)
+                cloned_asset.href = re.sub(online_data_prefix, roihu_data_prefix, cloned_asset.href)
+                cloned_asset.title = re.sub("paituli", "roihu", cloned_asset.title)
                 cloned_assets.append(cloned_asset)
             
             for clone in cloned_assets:
@@ -60,9 +60,9 @@ if __name__ == "__main__":
             request_point = f"collections/{stac_col.id}/products/{item.id}"
             r = requests.put(urljoin(app_host, request_point), json=converted_item, auth=("admin", pwd), headers={"User-Agent":"update-script"})
             r.raise_for_status()
-            added_puhti_link_count += 1
+            added_roihu_link_count += 1
 
-        if added_puhti_link_count == 0:
-            print(f"All Puhti links are already added for {stac_col.id}.")
+        if added_roihu_link_count == 0:
+            print(f"All Roihu links are already added for {stac_col.id}.")
         else:
-            print(f"+ Added all Puhti links for {stac_col.id}. Number of additions: {added_puhti_link_count}/{number_of_items}")
+            print(f"+ Added all Roihu links for {stac_col.id}. Number of additions: {added_roihu_link_count}/{number_of_items}")
