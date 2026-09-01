@@ -1,0 +1,5 @@
+file;start-date;end-date;collection;asset;item_id
+https://aquainfra-syke.a3s.fi/finland_clc_cog_raster/CLC2000_finland_harmonized_20m_cog.tif;1.1.2000;31.12.2000;harmonized_finnish_corine_land_cover_at_aquainfra;landcover;CLC2000_finland_harmonized_20m_cog
+https://aquainfra-syke.a3s.fi/finland_clc_cog_raster/CLC2006_finland_harmonized_20m_cog.tif;1.1.2006;31.12.2006;harmonized_finnish_corine_land_cover_at_aquainfra;landcover;CLC2006_finland_harmonized_20m_cog
+https://aquainfra-syke.a3s.fi/finland_clc_cog_raster/CLC2012_finland_harmonized_20m_cog.tif;1.1.2012;31.12.2012;harmonized_finnish_corine_land_cover_at_aquainfra;landcover;CLC2012_finland_harmonized_20m_cog
+https://aquainfra-syke.a3s.fi/finland_clc_cog_raster/CLC2018_finland_harmonized_20m_cog.tif;1.1.2018;31.12.2018;harmonized_finnish_corine_land_cover_at_aquainfra;landcover;CLC2018_finland_harmonized_20m_cog

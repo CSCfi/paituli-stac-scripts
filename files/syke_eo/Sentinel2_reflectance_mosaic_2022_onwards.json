@@ -1,0 +1,94 @@
+{
+	"type": "Collection",
+	"stac_version": "1.0.0",
+	"id":
+		"syke_sentinel2_reflectance_mosaics_2022_onwards_at_fmi",
+	"title":
+		"Sentinel-2 reflectance 3-month mosaics, years 2022 onwards",
+	"description":
+		"Sentinel-2 satellite image mosaics are produced from data provided by MultiSpectral Instruments (MSI) onboard Sentinel-2 satellites. These mosaics covering years 2017 - 2021 have been produced using the current version of Sentinel-2 Global Mosaic-service (https://s2gm.land.copernicus.eu/mosaic-hub) of Copernicus program of European Union. The image acquisition period yearly mosaics have been from the mid-June to the mid-August. The value of pixel of the individual bands is the estimate of ground reflectance, multiplied by coefficient 10000. The RGB-images (bands B08, B04, B03) have been scaled to 8-bit in order to make visualization easier. The value of meta-mosaic is the number of day from the start of year of selected pixel. Pixel size of all mosaics is 10 m. Original Sentinel data CLMS / ESA, mosaic processing by S2GM-service with postprocessing by SYKE. Coordinate system: ETRS-TM35FIN.",
+	"metadata":
+		"https://ckan.ymparisto.fi/dataset/sentinel-2-satellite-image-mosaics-2022-s2gm-sentinel-2-satelliittikuvamosaiikki-2022-s2gm",
+	"assets": {
+		"metadata": {
+		"href": "https://ckan.ymparisto.fi/dataset/sentinel-2-satellite-image-mosaics-2022-s2gm-sentinel-2-satelliittikuvamosaiikki-2022-s2gm",
+		"title": "Metadata",
+		"roles": [
+			"metadata"
+		]
+		}
+	},
+	"licenseURL":
+		"",
+	"license":
+		"CC-BY-4.0",
+	"links": [],
+	"extent": {
+		"spatial": { "bbox": [[-180, -90, 180, 90]] },
+		"temporal": { "interval": [["2022-01-01T00:00:00Z", null]] }
+	},
+	"providers": [
+		{
+			"name": "FMI",
+			"url": "https://en.ilmatieteenlaitos.fi/",
+			"roles":[
+				"host"
+			]
+		},
+		{
+			"name":"ESA",
+			"url": "https://www.esa.int/",
+			"roles": [
+				"producer"
+			]
+		},
+		{
+			"name": "SYKE",
+			"url": "https://www.syke.fi/en",
+			"roles":[
+				"processor",
+				"licensor"
+			]
+		}
+	],
+	"summaries": {
+		"gsd": [
+			10 
+		],
+		"bands": [
+			{
+			"name": "b2"
+			},
+			{
+			"name": "b3"
+			},
+			{
+			"name": "b4"
+			},
+			{
+			"name": "b5"
+			},
+			{
+			"name": "b6"
+			},
+			{
+			"name": "b7"
+			},
+			{
+			"name": "b8"
+			},
+			{
+			"name": "b11"
+			},		
+			{
+			"name": "b12"
+			},
+			{
+			"name": "rgb"	
+			},		
+			{
+			"name": "meta"
+			}
+		]
+	}
+}

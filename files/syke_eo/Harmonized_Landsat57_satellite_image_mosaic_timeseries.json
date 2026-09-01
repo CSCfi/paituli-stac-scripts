@@ -1,0 +1,95 @@
+{
+	"type": "Collection",
+	"id":
+		"syke_harmonized_landsat57_mosaic_at_fmi",
+	"stac_version": "1.0.0",
+	"title":
+		"Harmonized Landsat-5/7 satellite image mosaic timeseries",
+	"description":
+		"Harmonized dataset of yearly satellite image mosaics (reflectance of bands and image indices NDVI, NDMI, NDTI, NDWI) based on Landsat-5/7 imagery and starting from year 1984 and ending year 2014. The image acquisition period of individual year has been from start of May to end of September at Southern Finland and shorter in Northern Finland. Provided bands are B1: blue, B2: green, B3: red, B4: NIR, B5: SWIR1, B7: SWIR2, image indices NDMI: Normalized Difference Moisture Index, NDTI: Normalized Difference Tillage Index, NDVI: Normalized Difference Vegetation Index, NDWI: Normalized Difference Water Index and other mosaics META: The pixel value is the number of day of selected observation, NUMOBS: The pixel value is the number of available valid observations. Pixel size is 20 m. Original Landsat data USGS Landsat Level-2 Collection-2, mosaic processing by SYKE and archiving at FMI/NSDC (https://nsdc.fmi.fi/). Coordinate system: ETRS-TM35FIN.",
+	"links": [],
+	"assets": {
+		"metadata": {
+			"href": "https://ckan.ymparisto.fi/dataset/harmonized-landsat-satellite-image-mosaic-timeseries-harmonisoitu-landsat-satelliittikuvamosaii",
+			"title": "Metadata",
+			"roles": [
+				"metadata"
+			]
+		}
+	},
+	"licenseURL":
+		"",
+	"license":
+		"CC-BY-4.0",
+	"extent": {
+			"spatial": { "bbox": [[-180, -90, 180, 90]] },
+			"temporal": { "interval": [["2020-01-01T00:00:00Z", null]] }
+		},
+	"providers": [
+		{
+			"name": "FMI",
+			"url": "https://en.ilmatieteenlaitos.fi/",
+			"roles":[
+				"host"
+			]
+		},
+		{
+			"name":"USGS",
+			"url": "https://www.usgs.gov/",
+			"roles": [
+				"producer"
+			]
+		},
+		{
+			"name": "SYKE",
+			"url": "https://www.syke.fi/en",
+			"roles":[
+				"processor",
+				"licensor"
+			]
+		}
+	],
+	"summaries": {
+		"gsd": [
+			20 
+		],
+		"bands": [
+			{
+			"name": "b1"
+			},
+			{
+			"name": "b2"
+			},
+			{
+			"name": "b3"
+			},
+			{
+			"name": "b4"
+			},
+			{
+			"name": "b5"
+			},
+			{
+			"name": "b7"
+			},
+			{
+			"name": "ndmi"
+			},
+			{
+			"name": "ndti"
+			},		
+			{
+			"name": "ndvi"
+			},
+			{
+			"name": "ndwi"
+			},		
+			{
+			"name": "numobs"
+			},				
+			{
+			"name": "meta"
+			}
+		]
+	}
+}
