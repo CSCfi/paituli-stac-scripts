@@ -1,0 +1,97 @@
+{
+    "type": "Collection",
+    "id":
+        "clcplus_backbone_epsg_3857_at_aquainfra",
+    "stac_version": "1.0.0",
+    "title":
+        "CLCplus Backbone (raster 10 m), Europe, 3-yearly - FGI GeoCubes Europe COG in EPSG:3857",
+    "description":
+        "Provides a pan-European spatially consistent and seamless, detailed land cover inventory, for each pixel showing the dominant land cover among the 11 basic land cover classes in Cloud-Optimized GeoTIFF (COG) file formats stored in Finnish Geospatial Research Institute's (FGI) Geocubes Europe. GeoCubes Europe applies the following resolution levels: 10, 20, 50, 100, 200, 500, 1000 and 10000 m, the above 10m levels are included as internal overviews in cloud-optimized geotiffs. Coordinate system: EPSG:3857.",
+    "links": [],
+    "assets": {
+        "metadata_b2share_2021": {
+            "href": "https://doi.org/10.23728/b2share.ry510-rn467",
+            "title": "CLCplus Backbone 2021 (raster 10 m), Europe, 3-yearly - FGI GeoCubes Europe COG in EPSG:3857",
+            "roles": [
+                "metadata"
+            ]
+        },
+        "metadata_b2share_2018": {
+            "href": "https://doi.org/10.23728/b2share.928ck-gne91",
+            "title": "CLCplus Backbone 2018 (raster 10 m), Europe, 3-yearly - FGI GeoCubes Europe COG in EPSG:3857",
+            "roles": [
+                "metadata"
+            ]
+        },
+        "metadata_copernicus_2018": {
+            "href": "https://doi.org/10.2909/cd534ebf-f553-42f0-9ac1-62c1dc36d32c",
+            "title": "CLCplus Backbone 2018 (raster 10 m), Europe, 3-yearly",
+            "roles": [
+                "metadata"
+            ]
+        },
+        "metadata_metadata_2021": {
+            "href": "https://doi.org/10.2909/71fc9d1b-479f-4da1-aa66-662a2fff2cf7",
+            "title": "CLCplus Backbone 2021 (raster 10 m), Europe, 3-yearly",
+            "roles": [
+                "metadata"
+            ]
+        }
+    },
+    "licenseURL":
+        "https://doi.org/10.2909/cd534ebf-f553-42f0-9ac1-62c1dc36d32c",
+    "license":
+        "Open",
+    "extent": {
+            "spatial": { "bbox": [[-180, -90, 180, 90]] },
+            "temporal": { "interval": [["2020-01-01T00:00:00Z", null]] }
+        },
+    "providers": [
+        {
+            "name": "CSC",
+            "url": "https://www.csc.fi/en",
+            "roles":[
+                "host"
+            ]
+        },
+        {
+            "name": "AquaInfra",
+            "url": "https://aquainfra.eu/",
+            "roles":[
+                "host"
+            ]
+        },
+        {
+            "name":"Finnish Geospatial Research Institute (FGI) of the National Land Survey of Finland",
+            "url": "https://www.maanmittauslaitos.fi/tutkimus",
+            "roles": [
+                "processor"
+            ]
+        },
+        {
+            "name": "European Commission",
+            "url": "https://commission.europa.eu/",
+            "roles":[
+                "licensor"
+            ]
+        },
+        {
+            "name": "Copernicus Land Monitoring Service",
+            "url": "https://land.copernicus.eu",
+            "roles":[
+                "producer",
+                "processor"
+            ]
+        }
+    ],
+    "summaries": {
+        "gsd": [
+            10
+        ],
+        "bands": [
+            {
+                "name": "landcover"
+            }
+        ]
+    }
+}

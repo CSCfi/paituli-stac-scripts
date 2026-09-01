@@ -18,7 +18,7 @@
 		}
 	},
 	"licenseURL":
-		"https://www.syke.fi/en/environmental-data/use-license-and-responsibilities",
+		"href": "https://www.syke.fi/en/environmental-data/use-license-and-responsibilities",
 	"license":
 		"CC-BY-4.0",
 	"extent": {
@@ -40,6 +40,13 @@
 				"host"
 			]
 		},		
+		{
+			"name":"National land survery of Finland / Finnish geosptatial research institute",
+			"url": "https://www.syke.fi/en",
+			"roles": [
+				"processor"
+			]
+		},
 		{
 			"name": "Finnish Environment Institute",
 			"url": "https://www.syke.fi/en",

@@ -1,0 +1,83 @@
+{
+    "type": "Collection",
+    "id":
+        "eu_dem_epsg_3857_at_aquainfra",
+    "stac_version": "1.0.0",
+    "title":
+        "European Digital Elevation Model (EU-DEM) - FGI GeoCubes Europe COG in EPSG:3857",
+    "description":
+        "European Digital Elevation Model (EU-DEM) in Cloud-Optimized GeoTIFF (COG) file formats stored in Finnish Geospatial Research Institute's (FGI) Geocubes Europe. GeoCubes Europe applies the following resolution levels: 10, 20, 50, 100, 200, 500, 1000 and 10000 m, the above 10m levels are included as internal overviews in cloud-optimized geotiffs. Coordinate system: EPSG:3857.",
+    "links": [],
+    "assets": {
+        "metadata_b2share_2016": {
+            "href": "https://doi.org/10.23728/b2share.gtq46-d1023",
+            "title": "European Digital Elevation Model (EU-DEM) - FGI GeoCubes Europe COG in EPSG:3857",
+            "roles": [
+                "metadata"
+            ]
+        },
+        "metadata_eea_2016": {
+            "href": "https://sdi.eea.europa.eu/catalogue/srv/eng/catalog.search#/metadata/3473589f-0854-4601-919e-2e7dd172ff50",
+            "title": "EU-DEM (raster) - version 1.1, Apr. 2016",
+            "roles": [
+                "metadata"
+            ]
+        }
+    },
+    "licenseURL":
+        "https://sdi.eea.europa.eu/catalogue/srv/eng/catalog.search#/metadata/3473589f-0854-4601-919e-2e7dd172ff50",
+    "license":
+        "Open",
+    "extent": {
+            "spatial": { "bbox": [[-180, -90, 180, 90]] },
+            "temporal": { "interval": [["2020-01-01T00:00:00Z", null]] }
+        },
+    "providers": [
+        {
+            "name": "CSC",
+            "url": "https://www.csc.fi/en",
+            "roles":[
+                "host"
+            ]
+        },
+        {
+            "name": "AquaInfra",
+            "url": "https://aquainfra.eu/",
+            "roles":[
+                "host"
+            ]
+        },
+        {
+            "name":"Finnish Geospatial Research Institute (FGI) of the National Land Survey of Finland",
+            "url": "https://www.maanmittauslaitos.fi/tutkimus",
+            "roles": [
+                "processor"
+            ]
+        },
+        {
+            "name": "European Commission",
+            "url": "https://commission.europa.eu/",
+            "roles":[
+                "licensor"
+            ]
+        },
+        {
+            "name": "Copernicus Land Monitoring Service",
+            "url": "https://land.copernicus.eu",
+            "roles":[
+                "producer",
+                "processor"
+            ]
+        }
+    ],
+    "summaries": {
+        "gsd": [
+            10
+        ],
+        "bands": [
+            {
+                "name": "elevation"
+            }
+        ]
+    }
+}
