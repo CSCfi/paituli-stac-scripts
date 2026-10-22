@@ -18,7 +18,7 @@ def items_instance(collection_instance):
 
 def test_item(items_instance, collection_instance) -> None:
     epsg_codes = {3067, 4123, 5048, 3902, 3903, 2391, 2392, 2394, 3386, 3387, 2393,
-                  3901, 25832, 25833, 32634, 32636, 32635}
+                  3035, 3857, 3901, 25832, 25833, 32634, 32636, 32635}
     asset_media_types = [
         "image/tiff; application=geotiff", 
         "image/png", 
