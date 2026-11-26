@@ -25,9 +25,17 @@ def mediatype_instance(collection_instance) -> str:
 @pytest.mark.xfail(mediatype_instance == "application/x-netcdf", reason="NetCDF not supported")
 def test_cube(catalog_instance, collection_id) -> None:
 
-    lon, lat = 24.945, 60.173
     search = catalog_instance.search(
-        intersects=dict(type="Point", coordinates=[lon, lat]),
+        intersects={
+            "type": "Polygon",
+            "coordinates": [[
+                [19.08, 59.45],
+                [31.59, 59.45],
+                [31.59, 70.09],
+                [19.08, 70.09],
+                [19.08, 59.45]
+            ]]
+        },
         collections=[collection_id],
         max_items=100
     )
