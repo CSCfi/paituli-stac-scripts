@@ -17,8 +17,20 @@ def items_instance(collection_instance):
     return items
 
 def test_item(items_instance, collection_instance) -> None:
-    epsg_codes = {3067, 4123, 5048, 3902, 3903, 2391, 2392, 2394, 3386, 3387, 2393,
-                  3035, 3857, 3901, 25832, 25833, 32634, 32636, 32635}
+    epsg_codes = {
+        3067, 4123, 5048, 3902, 
+        3903, 2391, 2392, 2394, 
+        3386, 3387, 2393, 3035, 
+        3857, 3901, 25832, 25833, 
+        32634, 32636, 32635
+    }
+    epsg_str_codes = {
+        "EPSG:3067", "EPSG:4123", "EPSG:5048", "EPSG:3902",
+        "EPSG:3903", "EPSG:2391", "EPSG:2392", "EPSG:2394",
+        "EPSG:3386", "EPSG:3387", "EPSG:2393", "EPSG:3035", 
+        "EPSG:3857", "EPSG:3901", "EPSG:25832", "EPSG:25833", 
+        "EPSG:32634", "EPSG:32636", "EPSG:32635"
+    }
     asset_media_types = [
         "image/tiff; application=geotiff", 
         "image/png", 
@@ -36,8 +48,12 @@ def test_item(items_instance, collection_instance) -> None:
             assert item.properties["gsd"] > 0, "Should be more than 0"
             assert item.properties["proj:transform"], "Item should include proj:transform"
 
-        assert type(item.properties["proj:epsg"]) == int, "Should be int"
-        assert item.properties["proj:epsg"] in epsg_codes, "Should be a valid EPSG code"
+        if "proj:epsg" in item.properties:
+            assert type(item.properties["proj:epsg"]) == int, "Should be int"
+            assert item.properties["proj:epsg"] in epsg_codes, "Should be a valid EPSG code"
+        elif "proj:code" in item.properties:
+            assert type(item.properties["proj:code"]) == str, "Should be str"
+            assert item.properties["proj:code"] in epsg_str_codes, "Should be a valid EPSG code"
         assert timespan[0][0] <= item.datetime <= timespan[0][1], "Datetime should be within Collection timerange"
 
         assert len(item.assets) > 0, "Should be more than 0"
@@ -51,7 +67,7 @@ def test_item(items_instance, collection_instance) -> None:
             if "data" in asset.roles:
                 assert asset.media_type in asset_media_types, "Asset media type should be one of listed ones"
             assert asset.roles, "Should have items in role list"
-            if (collection_instance.id != "sentinel2-l2a") and not collection_instance.id.endswith("at_fmi"):
+            if collection_instance.id != "sentinel2-l2a" and not collection_instance.id.endswith("at_fmi"):
                 if not collection_instance.id.endswith("at_geocubes") and not collection_instance.id.endswith("at_aquainfra"):
                     assert type(asset.extra_fields["gsd"]) == float, "Should be float"
                 assert asset.extra_fields["proj:transform"], "Asset should include proj:transform"
