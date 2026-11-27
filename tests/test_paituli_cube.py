@@ -41,9 +41,14 @@ def test_cube(catalog_instance, collection_id) -> None:
     )
     item_collection = search.item_collection()
 
-    epsg = item_collection[0].properties["proj:epsg"]
+    if "proj:epsg" in item_collection[0].properties: 
+        epsg = item_collection[0].properties["proj:epsg"]
+    elif "proj:code" in item_collection[0].properties:
+        epsg = item_collection[0].properties["proj:code"]
     gsd = item_collection[0].properties["gsd"]
     asset_keys = list(item_collection[0].assets.keys())
+    if "thumbnail" in asset_keys:
+        asset_keys = asset_keys.remove("thumbnail")
 
     cube = odc.stac.load(
         item_collection,
